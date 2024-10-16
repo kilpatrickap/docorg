@@ -1,6 +1,6 @@
 import sys
 import os
-from PyQt6.QtWidgets import QApplication, QMainWindow, QVBoxLayout, QHBoxLayout, QWidget, QPushButton, QLabel, QLineEdit, QFileDialog, QTreeView, QMenu, QSplitter
+from PyQt6.QtWidgets import QApplication, QMainWindow, QVBoxLayout, QHBoxLayout, QWidget, QPushButton, QLabel, QLineEdit, QFileDialog, QTreeView, QMenu, QInputDialog, QSplitter
 from PyQt6.QtGui import QStandardItemModel, QStandardItem
 from PyQt6.QtCore import Qt, QPoint, QModelIndex
 
@@ -26,13 +26,19 @@ class MainWindow(QMainWindow):
         left_layout = QVBoxLayout()
 
         # Home Screen
-        home_label = QLabel('Central Repository')
+        home_label = QLabel('Home Screen - Central Repository')
         left_layout.addWidget(home_label)
 
-        # Upload Button
+        # New Folder Button and Upload Button
+        button_layout = QHBoxLayout()
+        new_folder_button = QPushButton('New Folder')
+        new_folder_button.clicked.connect(self.create_new_folder)
+        button_layout.addWidget(new_folder_button)
+
         upload_button = QPushButton('Upload Document')
         upload_button.clicked.connect(self.upload_document)
-        left_layout.addWidget(upload_button)
+        button_layout.addWidget(upload_button)
+        left_layout.addLayout(button_layout)
 
         # File List
         self.file_list = QTreeView()
@@ -77,6 +83,12 @@ class MainWindow(QMainWindow):
     def add_document(self, file):
         item = QStandardItem(file)
         self.model.appendRow(item)
+
+    def create_new_folder(self):
+        folder_name, ok = QInputDialog.getText(self, 'New Folder', 'Enter folder name:')
+        if ok and folder_name:
+            item = QStandardItem(folder_name)
+            self.model.appendRow(item)
 
     def open_context_menu(self, position: QPoint):
         index = self.file_list.indexAt(position)
