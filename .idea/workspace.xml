@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a217bbd8-56e0-4b56-9062-15222de2ee59" name="Changes" comment="responsive">
+    <list default="true" id="a217bbd8-56e0-4b56-9062-15222de2ee59" name="Changes" comment="first try">
       <change beforePath="$PROJECT_DIR$/DocOrg.py" beforeDir="false" afterPath="$PROJECT_DIR$/DocOrg.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -112,15 +112,7 @@
       <option name="project" value="LOCAL" />
       <updated>1729085163202</updated>
     </task>
-    <task id="LOCAL-00007" summary="responsive">
-      <option name="closed" value="true" />
-      <created>1729085318218</created>
-      <option name="number" value="00007" />
-      <option name="presentableId" value="LOCAL-00007" />
-      <option name="project" value="LOCAL" />
-      <updated>1729085318218</updated>
-    </task>
-    <option name="localTasksCounter" value="8" />
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -136,7 +128,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="first try" />
-    <MESSAGE value="responsive" />
-    <option name="LAST_COMMIT_MESSAGE" value="responsive" />
+    <option name="LAST_COMMIT_MESSAGE" value="first try" />
   </component>
 </project>
