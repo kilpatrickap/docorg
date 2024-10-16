@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a217bbd8-56e0-4b56-9062-15222de2ee59" name="Changes" comment="do not os.remove and os.rmdir from the os. rather delete it from the QTreeView.">
+    <list default="true" id="a217bbd8-56e0-4b56-9062-15222de2ee59" name="Changes" comment="prevent editing and renaming items in the QTreeView.">
       <change beforePath="$PROJECT_DIR$/DocOrg.py" beforeDir="false" afterPath="$PROJECT_DIR$/DocOrg.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -144,7 +144,15 @@
       <option name="project" value="LOCAL" />
       <updated>1729089418457</updated>
     </task>
-    <option name="localTasksCounter" value="11" />
+    <task id="LOCAL-00011" summary="prevent editing and renaming items in the QTreeView.">
+      <option name="closed" value="true" />
+      <created>1729089756855</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1729089756855</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -164,6 +172,7 @@
     <MESSAGE value="new folder dialog" />
     <MESSAGE value="Upload Folder Button &amp; Folder Structure Display &amp; Set Alternating Colors True." />
     <MESSAGE value="do not os.remove and os.rmdir from the os. rather delete it from the QTreeView." />
-    <option name="LAST_COMMIT_MESSAGE" value="do not os.remove and os.rmdir from the os. rather delete it from the QTreeView." />
+    <MESSAGE value="prevent editing and renaming items in the QTreeView." />
+    <option name="LAST_COMMIT_MESSAGE" value="prevent editing and renaming items in the QTreeView." />
   </component>
 </project>

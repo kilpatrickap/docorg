@@ -47,6 +47,7 @@ class MainWindow(QMainWindow):
         self.file_list.customContextMenuRequested.connect(self.open_context_menu)
         self.file_list.setAlternatingRowColors(True)
         self.file_list.setEditTriggers(QTreeView.EditTrigger.NoEditTriggers)  # Prevent editing on double-click
+        self.file_list.doubleClicked.connect(self.double_click_open)  # Connect double-click to open file
         left_layout.addWidget(self.file_list)
 
         # Search Bar and Button
@@ -108,6 +109,11 @@ class MainWindow(QMainWindow):
                 file_item.setFlags(file_item.flags() & ~Qt.ItemFlag.ItemIsEditable)  # Prevent editing
                 root_item.appendRow(file_item)
         self.model.appendRow(folder_item)
+
+    def double_click_open(self, index: QModelIndex):
+        item = self.model.itemFromIndex(index)
+        file_path = item.text()
+        self.open_file(file_path)
 
     def open_context_menu(self, position: QPoint):
         index = self.file_list.indexAt(position)
