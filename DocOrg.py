@@ -46,6 +46,7 @@ class MainWindow(QMainWindow):
         self.file_list.setContextMenuPolicy(Qt.ContextMenuPolicy.CustomContextMenu)
         self.file_list.customContextMenuRequested.connect(self.open_context_menu)
         self.file_list.setAlternatingRowColors(True)
+        self.file_list.setEditTriggers(QTreeView.EditTrigger.NoEditTriggers)  # Prevent editing on double-click
         left_layout.addWidget(self.file_list)
 
         # Search Bar and Button
@@ -83,6 +84,7 @@ class MainWindow(QMainWindow):
 
     def add_file(self, file_path):
         file_item = QStandardItem(file_path)
+        file_item.setFlags(file_item.flags() & ~Qt.ItemFlag.ItemIsEditable)  # Prevent editing
         self.model.appendRow(file_item)
 
     def upload_folder(self):
@@ -92,14 +94,18 @@ class MainWindow(QMainWindow):
 
     def add_folder(self, folder_path):
         folder_item = QStandardItem(folder_path)
+        folder_item.setFlags(folder_item.flags() & ~Qt.ItemFlag.ItemIsEditable)  # Prevent editing
         for root, dirs, files in os.walk(folder_path):
             root_item = QStandardItem(root)
+            root_item.setFlags(root_item.flags() & ~Qt.ItemFlag.ItemIsEditable)  # Prevent editing
             folder_item.appendRow(root_item)
             for dir_name in dirs:
                 dir_item = QStandardItem(os.path.join(root, dir_name))
+                dir_item.setFlags(dir_item.flags() & ~Qt.ItemFlag.ItemIsEditable)  # Prevent editing
                 root_item.appendRow(dir_item)
             for file_name in files:
                 file_item = QStandardItem(os.path.join(root, file_name))
+                file_item.setFlags(file_item.flags() & ~Qt.ItemFlag.ItemIsEditable)  # Prevent editing
                 root_item.appendRow(file_item)
         self.model.appendRow(folder_item)
 
@@ -118,17 +124,17 @@ class MainWindow(QMainWindow):
         if action == open_action:
             self.open_file(file_path)
         elif action == delete_action:
-            parent = item.parent()
-            if parent:
-                parent.removeRow(item.row())
-            else:
-                self.model.removeRow(index.row())
+            self.delete_document(index)
 
     def open_file(self, file_path):
         os.startfile(file_path)  # This is for Windows. Use 'open' for macOS and 'xdg-open' for Linux.
 
+    def delete_document(self, index: QModelIndex):
+        self.model.removeRow(index.row())
+
     def search_documents(self):
-        query = self
+        query = self.search_bar.text()
+        print(f"Search query: {query}")  # Placeholder for actual search functionality
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
