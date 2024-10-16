@@ -26,7 +26,7 @@ class MainWindow(QMainWindow):
         left_layout = QVBoxLayout()
 
         # Home Screen
-        home_label = QLabel('Home Screen - Central Repository')
+        home_label = QLabel('Central Repository')
         left_layout.addWidget(home_label)
 
         # New Folder Button and Upload Button
@@ -78,17 +78,27 @@ class MainWindow(QMainWindow):
     def upload_document(self):
         file, _ = QFileDialog.getOpenFileName(self, 'Upload Document', '', 'All Files (*);;Text Files (*.txt)')
         if file:
-            self.add_document(file)
+            self.add_file(file)
 
-    def add_document(self, file):
-        item = QStandardItem(file)
-        self.model.appendRow(item)
+    def add_file(self, file_path):
+        file_item = QStandardItem(file_path)
+        self.model.appendRow(file_item)
 
     def create_new_folder(self):
-        folder_name, ok = QInputDialog.getText(self, 'New Folder', 'Enter folder name:')
-        if ok and folder_name:
-            item = QStandardItem(folder_name)
-            self.model.appendRow(item)
+        folder_path = QFileDialog.getExistingDirectory(self, 'Select Folder')
+        if folder_path:
+            folder_name, ok = QInputDialog.getText(self, 'New Folder', 'Enter folder name:')
+            if ok and folder_name:
+                new_folder_path = os.path.join(folder_path, folder_name)
+                try:
+                    os.makedirs(new_folder_path)
+                    self.add_folder(new_folder_path)
+                except Exception as e:
+                    print(f"Error creating folder: {e}")
+
+    def add_folder(self, folder_path):
+        folder_item = QStandardItem(folder_path)
+        self.model.appendRow(folder_item)
 
     def open_context_menu(self, position: QPoint):
         index = self.file_list.indexAt(position)
