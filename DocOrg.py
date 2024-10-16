@@ -1,6 +1,6 @@
 import sys
 import os
-from PyQt6.QtWidgets import QApplication, QMainWindow, QVBoxLayout, QHBoxLayout, QWidget, QPushButton, QLabel, QLineEdit, QFileDialog, QTreeView, QMenu
+from PyQt6.QtWidgets import QApplication, QMainWindow, QVBoxLayout, QHBoxLayout, QWidget, QPushButton, QLabel, QLineEdit, QFileDialog, QTreeView, QMenu, QSplitter
 from PyQt6.QtGui import QStandardItemModel, QStandardItem
 from PyQt6.QtCore import Qt, QPoint, QModelIndex
 
@@ -11,7 +11,7 @@ class MainWindow(QMainWindow):
 
     def initUI(self):
         self.setWindowTitle('Bid Manager')
-        self.setGeometry(100, 100, 1400, 700)  # Adjusted width for two columns
+        self.setGeometry(100, 100, 800, 600)  # Adjusted width for two columns
 
         main_layout = QHBoxLayout()  # Main layout as a horizontal layout
 
@@ -19,24 +19,27 @@ class MainWindow(QMainWindow):
         self.model = QStandardItemModel()
         self.model.setHorizontalHeaderLabels(['File List'])
 
+        splitter = QSplitter(Qt.Orientation.Horizontal)
+
         # Left Column (File List)
-        left_column = QVBoxLayout()
+        left_widget = QWidget()
+        left_layout = QVBoxLayout()
 
         # Home Screen
-        home_label = QLabel('Central Repository')
-        left_column.addWidget(home_label)
+        home_label = QLabel('Home Screen - Central Repository')
+        left_layout.addWidget(home_label)
 
         # Upload Button
         upload_button = QPushButton('Upload Document')
         upload_button.clicked.connect(self.upload_document)
-        left_column.addWidget(upload_button)
+        left_layout.addWidget(upload_button)
 
         # File List
         self.file_list = QTreeView()
         self.file_list.setModel(self.model)
         self.file_list.setContextMenuPolicy(Qt.ContextMenuPolicy.CustomContextMenu)
         self.file_list.customContextMenuRequested.connect(self.open_context_menu)
-        left_column.addWidget(self.file_list)
+        left_layout.addWidget(self.file_list)
 
         # Search Bar and Button
         search_layout = QHBoxLayout()
@@ -46,15 +49,20 @@ class MainWindow(QMainWindow):
         search_button.clicked.connect(self.search_documents)
         search_layout.addWidget(self.search_bar)
         search_layout.addWidget(search_button)
-        left_column.addLayout(search_layout)
+        left_layout.addLayout(search_layout)
 
-        main_layout.addLayout(left_column)
+        left_widget.setLayout(left_layout)
+        splitter.addWidget(left_widget)
 
         # Right Column (Empty for future use)
-        right_column = QVBoxLayout()
+        right_widget = QWidget()
+        right_layout = QVBoxLayout()
         empty_label = QLabel('Right Column - Empty for future use')
-        right_column.addWidget(empty_label)
-        main_layout.addLayout(right_column)
+        right_layout.addWidget(empty_label)
+        right_widget.setLayout(right_layout)
+        splitter.addWidget(right_widget)
+
+        main_layout.addWidget(splitter)
 
         # Set central widget
         central_widget = QWidget()
