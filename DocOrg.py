@@ -11,7 +11,7 @@ class MainWindow(QMainWindow):
         self.initUI()
 
     def initUI(self):
-        self.setWindowTitle('Construction Bid Management')
+        self.setWindowTitle('Bid Manager')
         self.setGeometry(100, 100, 800, 600)  # Adjusted width for two columns
 
         main_layout = QHBoxLayout()  # Main layout as a horizontal layout
