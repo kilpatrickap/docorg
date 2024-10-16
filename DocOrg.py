@@ -11,7 +11,7 @@ class MainWindow(QMainWindow):
 
     def initUI(self):
         self.setWindowTitle('Bid Manager')
-        self.setGeometry(100, 100, 800, 600)  # Adjusted width for two columns
+        self.setGeometry(100, 100, 1400, 700)  # Adjusted width for two columns
 
         main_layout = QHBoxLayout()  # Main layout as a horizontal layout
 
@@ -23,7 +23,7 @@ class MainWindow(QMainWindow):
         left_column = QVBoxLayout()
 
         # Home Screen
-        home_label = QLabel('Home Screen - Central Repository')
+        home_label = QLabel('Central Repository')
         left_column.addWidget(home_label)
 
         # Upload Button
@@ -49,6 +49,12 @@ class MainWindow(QMainWindow):
         left_column.addLayout(search_layout)
 
         main_layout.addLayout(left_column)
+
+        # Right Column (Empty for future use)
+        right_column = QVBoxLayout()
+        empty_label = QLabel('Right Column - Empty for future use')
+        right_column.addWidget(empty_label)
+        main_layout.addLayout(right_column)
 
         # Set central widget
         central_widget = QWidget()
