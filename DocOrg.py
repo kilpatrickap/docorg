@@ -1,9 +1,8 @@
 import sys
 import os
-from PyQt6.QtWidgets import QApplication, QMainWindow, QVBoxLayout, QHBoxLayout, QWidget, QPushButton, QLabel, QListView, QLineEdit, QFileDialog, QTreeView, QMenu
+from PyQt6.QtWidgets import QApplication, QMainWindow, QVBoxLayout, QHBoxLayout, QWidget, QPushButton, QLabel, QLineEdit, QFileDialog, QTreeView, QMenu
 from PyQt6.QtGui import QStandardItemModel, QStandardItem
 from PyQt6.QtCore import Qt, QPoint, QModelIndex
-
 
 class MainWindow(QMainWindow):
     def __init__(self):
@@ -16,13 +15,28 @@ class MainWindow(QMainWindow):
 
         main_layout = QHBoxLayout()  # Main layout as a horizontal layout
 
-        # Left Column (Sidebar - Categories)
-        left_column = QVBoxLayout()
-        self.sidebar = QTreeView()
+        # Initialize the model first
         self.model = QStandardItemModel()
-        self.model.setHorizontalHeaderLabels(['Categories'])
-        self.sidebar.setModel(self.model)
-        left_column.addWidget(self.sidebar)
+        self.model.setHorizontalHeaderLabels(['File List'])
+
+        # Left Column (File List)
+        left_column = QVBoxLayout()
+
+        # Home Screen
+        home_label = QLabel('Home Screen - Central Repository')
+        left_column.addWidget(home_label)
+
+        # Upload Button
+        upload_button = QPushButton('Upload Document')
+        upload_button.clicked.connect(self.upload_document)
+        left_column.addWidget(upload_button)
+
+        # File List
+        self.file_list = QTreeView()
+        self.file_list.setModel(self.model)
+        self.file_list.setContextMenuPolicy(Qt.ContextMenuPolicy.CustomContextMenu)
+        self.file_list.customContextMenuRequested.connect(self.open_context_menu)
+        left_column.addWidget(self.file_list)
 
         # Search Bar and Button
         search_layout = QHBoxLayout()
@@ -35,27 +49,6 @@ class MainWindow(QMainWindow):
         left_column.addLayout(search_layout)
 
         main_layout.addLayout(left_column)
-
-        # Right Column (File List)
-        right_column = QVBoxLayout()
-
-        # Home Screen
-        home_label = QLabel('Home Screen - Central Repository')
-        right_column.addWidget(home_label)
-
-        # Upload Button
-        upload_button = QPushButton('Upload Document')
-        upload_button.clicked.connect(self.upload_document)
-        right_column.addWidget(upload_button)
-
-        # File List
-        self.file_list = QTreeView()
-        self.file_list.setModel(self.model)
-        self.file_list.setContextMenuPolicy(Qt.ContextMenuPolicy.CustomContextMenu)
-        self.file_list.customContextMenuRequested.connect(self.open_context_menu)
-        right_column.addWidget(self.file_list)
-
-        main_layout.addLayout(right_column)
 
         # Set central widget
         central_widget = QWidget()
