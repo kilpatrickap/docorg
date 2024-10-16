@@ -45,6 +45,7 @@ class MainWindow(QMainWindow):
         self.file_list.setModel(self.model)
         self.file_list.setContextMenuPolicy(Qt.ContextMenuPolicy.CustomContextMenu)
         self.file_list.customContextMenuRequested.connect(self.open_context_menu)
+        self.file_list.setAlternatingRowColors(True)
         left_layout.addWidget(self.file_list)
 
         # Search Bar and Button
