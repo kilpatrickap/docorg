@@ -4,7 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a217bbd8-56e0-4b56-9062-15222de2ee59" name="Changes" comment="prevent editing and renaming items in the QTreeView.">
+    <list default="true" id="a217bbd8-56e0-4b56-9062-15222de2ee59" name="Changes" comment="Double-click to open docs in QTreeView.">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/DocOrg.py" beforeDir="false" afterPath="$PROJECT_DIR$/DocOrg.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -152,7 +153,15 @@
       <option name="project" value="LOCAL" />
       <updated>1729089756855</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="Double-click to open docs in QTreeView.">
+      <option name="closed" value="true" />
+      <created>1729090533859</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1729090533859</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -173,6 +182,7 @@
     <MESSAGE value="Upload Folder Button &amp; Folder Structure Display &amp; Set Alternating Colors True." />
     <MESSAGE value="do not os.remove and os.rmdir from the os. rather delete it from the QTreeView." />
     <MESSAGE value="prevent editing and renaming items in the QTreeView." />
-    <option name="LAST_COMMIT_MESSAGE" value="prevent editing and renaming items in the QTreeView." />
+    <MESSAGE value="Double-click to open docs in QTreeView." />
+    <option name="LAST_COMMIT_MESSAGE" value="Double-click to open docs in QTreeView." />
   </component>
 </project>

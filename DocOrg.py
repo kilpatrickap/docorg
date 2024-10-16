@@ -136,7 +136,16 @@ class MainWindow(QMainWindow):
         os.startfile(file_path)  # This is for Windows. Use 'open' for macOS and 'xdg-open' for Linux.
 
     def delete_document(self, index: QModelIndex):
-        self.model.removeRow(index.row())
+        item = self.model.itemFromIndex(index)
+        if os.path.isfile(item.text()):
+            os.remove(item.text())
+        elif os.path.isdir(item.text()):
+            os.rmdir(item.text())
+        parent = item.parent()
+        if parent:
+            parent.removeRow(index.row())
+        else:
+            self.model.removeRow(index.row())
 
     def search_documents(self):
         query = self.search_bar.text()
