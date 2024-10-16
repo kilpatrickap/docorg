@@ -96,10 +96,10 @@ class MainWindow(QMainWindow):
             root_item = QStandardItem(root)
             folder_item.appendRow(root_item)
             for dir_name in dirs:
-                dir_item = QStandardItem(dir_name)
+                dir_item = QStandardItem(os.path.join(root, dir_name))
                 root_item.appendRow(dir_item)
             for file_name in files:
-                file_item = QStandardItem(file_name)
+                file_item = QStandardItem(os.path.join(root, file_name))
                 root_item.appendRow(file_item)
         self.model.appendRow(folder_item)
 
@@ -118,17 +118,17 @@ class MainWindow(QMainWindow):
         if action == open_action:
             self.open_file(file_path)
         elif action == delete_action:
-            self.delete_document(index)
+            parent = item.parent()
+            if parent:
+                parent.removeRow(item.row())
+            else:
+                self.model.removeRow(index.row())
 
     def open_file(self, file_path):
         os.startfile(file_path)  # This is for Windows. Use 'open' for macOS and 'xdg-open' for Linux.
 
-    def delete_document(self, index: QModelIndex):
-        self.model.removeRow(index.row())
-
     def search_documents(self):
-        query = self.search_bar.text()
-        print(f"Search query: {query}")  # Placeholder for actual search functionality
+        query = self
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
