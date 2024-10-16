@@ -1,8 +1,6 @@
 import sys
-from PyQt6.QtWidgets import QApplication, QMainWindow, QVBoxLayout, QHBoxLayout, QWidget, QPushButton, QLabel, \
-    QListView, QLineEdit, QFileDialog, QTreeView
+from PyQt6.QtWidgets import QApplication, QMainWindow, QVBoxLayout, QHBoxLayout, QWidget, QPushButton, QLabel, QListView, QLineEdit, QFileDialog, QTreeView
 from PyQt6.QtGui import QStandardItemModel, QStandardItem
-
 
 class MainWindow(QMainWindow):
     def __init__(self):
@@ -11,28 +9,31 @@ class MainWindow(QMainWindow):
 
     def initUI(self):
         self.setWindowTitle('Construction Bid Management')
-        self.setGeometry(100, 100, 800, 600)
+        self.setGeometry(100, 100, 800, 600)  # Adjusted width for two columns
 
         main_layout = QHBoxLayout()  # Main layout as a horizontal layout
 
-        # Left Column
+        # Left Column (Sidebar - Categories)
         left_column = QVBoxLayout()
-
-        # Sidebar (Categories)
         self.sidebar = QTreeView()
         self.model = QStandardItemModel()
         self.model.setHorizontalHeaderLabels(['Categories'])
         self.sidebar.setModel(self.model)
         left_column.addWidget(self.sidebar)
 
-        # Search Bar
+        # Search Bar and Button
+        search_layout = QHBoxLayout()
         self.search_bar = QLineEdit()
         self.search_bar.setPlaceholderText('Search...')
-        left_column.addWidget(self.search_bar)
+        search_button = QPushButton('Search')
+        search_button.clicked.connect(self.search_documents)
+        search_layout.addWidget(self.search_bar)
+        search_layout.addWidget(search_button)
+        left_column.addLayout(search_layout)
 
         main_layout.addLayout(left_column)
 
-        # Right Column
+        # Right Column (File List)
         right_column = QVBoxLayout()
 
         # Home Screen
@@ -64,6 +65,9 @@ class MainWindow(QMainWindow):
         item = QStandardItem(file)
         self.model.appendRow(item)
 
+    def search_documents(self):
+        query = self.search_bar.text()
+        print(f"Search query: {query}")  # Placeholder for actual search functionality
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
