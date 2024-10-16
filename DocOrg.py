@@ -1,6 +1,8 @@
 import sys
-from PyQt6.QtWidgets import QApplication, QMainWindow, QVBoxLayout, QWidget, QPushButton, QLabel, QListView, QLineEdit, QFileDialog, QTreeView
+from PyQt6.QtWidgets import QApplication, QMainWindow, QVBoxLayout, QHBoxLayout, QWidget, QPushButton, QLabel, \
+    QListView, QLineEdit, QFileDialog, QTreeView
 from PyQt6.QtGui import QStandardItemModel, QStandardItem
+
 
 class MainWindow(QMainWindow):
     def __init__(self):
@@ -11,32 +13,42 @@ class MainWindow(QMainWindow):
         self.setWindowTitle('Construction Bid Management')
         self.setGeometry(100, 100, 800, 600)
 
-        main_layout = QVBoxLayout()
+        main_layout = QHBoxLayout()  # Main layout as a horizontal layout
 
-        # Home Screen
-        home_label = QLabel('Home Screen - Central Repository')
-        main_layout.addWidget(home_label)
-
-        # Upload Button
-        upload_button = QPushButton('Upload Document')
-        upload_button.clicked.connect(self.upload_document)
-        main_layout.addWidget(upload_button)
-
-        # Search Bar
-        self.search_bar = QLineEdit()
-        self.search_bar.setPlaceholderText('Search...')
-        main_layout.addWidget(self.search_bar)
+        # Left Column
+        left_column = QVBoxLayout()
 
         # Sidebar (Categories)
         self.sidebar = QTreeView()
         self.model = QStandardItemModel()
         self.model.setHorizontalHeaderLabels(['Categories'])
         self.sidebar.setModel(self.model)
-        main_layout.addWidget(self.sidebar)
+        left_column.addWidget(self.sidebar)
+
+        # Search Bar
+        self.search_bar = QLineEdit()
+        self.search_bar.setPlaceholderText('Search...')
+        left_column.addWidget(self.search_bar)
+
+        main_layout.addLayout(left_column)
+
+        # Right Column
+        right_column = QVBoxLayout()
+
+        # Home Screen
+        home_label = QLabel('Home Screen - Central Repository')
+        right_column.addWidget(home_label)
+
+        # Upload Button
+        upload_button = QPushButton('Upload Document')
+        upload_button.clicked.connect(self.upload_document)
+        right_column.addWidget(upload_button)
 
         # File List
         self.file_list = QListView()
-        main_layout.addWidget(self.file_list)
+        right_column.addWidget(self.file_list)
+
+        main_layout.addLayout(right_column)
 
         # Set central widget
         central_widget = QWidget()
@@ -51,6 +63,7 @@ class MainWindow(QMainWindow):
     def add_document(self, file):
         item = QStandardItem(file)
         self.model.appendRow(item)
+
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
