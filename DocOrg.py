@@ -1,6 +1,6 @@
 import sys
 import os
-from PyQt6.QtWidgets import QApplication, QMainWindow, QVBoxLayout, QHBoxLayout, QWidget, QPushButton, QLabel, QLineEdit, QFileDialog, QTreeView, QMenu, QInputDialog, QSplitter
+from PyQt6.QtWidgets import QApplication, QMainWindow, QVBoxLayout, QHBoxLayout, QWidget, QPushButton, QLabel, QLineEdit, QFileDialog, QTreeView, QMenu, QSplitter
 from PyQt6.QtGui import QStandardItemModel, QStandardItem
 from PyQt6.QtCore import Qt, QPoint, QModelIndex
 
@@ -29,11 +29,11 @@ class MainWindow(QMainWindow):
         home_label = QLabel('Central Repository')
         left_layout.addWidget(home_label)
 
-        # New Folder Button and Upload Button
+        # Upload Folder Button and Upload Document Button
         button_layout = QHBoxLayout()
-        new_folder_button = QPushButton('New Folder')
-        new_folder_button.clicked.connect(self.create_new_folder)
-        button_layout.addWidget(new_folder_button)
+        upload_folder_button = QPushButton('Upload Folder')
+        upload_folder_button.clicked.connect(self.upload_folder)
+        button_layout.addWidget(upload_folder_button)
 
         upload_button = QPushButton('Upload Document')
         upload_button.clicked.connect(self.upload_document)
@@ -84,20 +84,22 @@ class MainWindow(QMainWindow):
         file_item = QStandardItem(file_path)
         self.model.appendRow(file_item)
 
-    def create_new_folder(self):
+    def upload_folder(self):
         folder_path = QFileDialog.getExistingDirectory(self, 'Select Folder')
         if folder_path:
-            folder_name, ok = QInputDialog.getText(self, 'New Folder', 'Enter folder name:')
-            if ok and folder_name:
-                new_folder_path = os.path.join(folder_path, folder_name)
-                try:
-                    os.makedirs(new_folder_path)
-                    self.add_folder(new_folder_path)
-                except Exception as e:
-                    print(f"Error creating folder: {e}")
+            self.add_folder(folder_path)
 
     def add_folder(self, folder_path):
         folder_item = QStandardItem(folder_path)
+        for root, dirs, files in os.walk(folder_path):
+            root_item = QStandardItem(root)
+            folder_item.appendRow(root_item)
+            for dir_name in dirs:
+                dir_item = QStandardItem(dir_name)
+                root_item.appendRow(dir_item)
+            for file_name in files:
+                file_item = QStandardItem(file_name)
+                root_item.appendRow(file_item)
         self.model.appendRow(folder_item)
 
     def open_context_menu(self, position: QPoint):
