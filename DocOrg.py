@@ -1,6 +1,9 @@
 import sys
-from PyQt6.QtWidgets import QApplication, QMainWindow, QVBoxLayout, QHBoxLayout, QWidget, QPushButton, QLabel, QListView, QLineEdit, QFileDialog, QTreeView
+import os
+from PyQt6.QtWidgets import QApplication, QMainWindow, QVBoxLayout, QHBoxLayout, QWidget, QPushButton, QLabel, QListView, QLineEdit, QFileDialog, QTreeView, QMenu
 from PyQt6.QtGui import QStandardItemModel, QStandardItem
+from PyQt6.QtCore import Qt, QPoint, QModelIndex
+
 
 class MainWindow(QMainWindow):
     def __init__(self):
@@ -46,7 +49,10 @@ class MainWindow(QMainWindow):
         right_column.addWidget(upload_button)
 
         # File List
-        self.file_list = QListView()
+        self.file_list = QTreeView()
+        self.file_list.setModel(self.model)
+        self.file_list.setContextMenuPolicy(Qt.ContextMenuPolicy.CustomContextMenu)
+        self.file_list.customContextMenuRequested.connect(self.open_context_menu)
         right_column.addWidget(self.file_list)
 
         main_layout.addLayout(right_column)
@@ -64,6 +70,29 @@ class MainWindow(QMainWindow):
     def add_document(self, file):
         item = QStandardItem(file)
         self.model.appendRow(item)
+
+    def open_context_menu(self, position: QPoint):
+        index = self.file_list.indexAt(position)
+        if not index.isValid():
+            return
+        item = self.model.itemFromIndex(index)
+        file_path = item.text()
+
+        menu = QMenu()
+        open_action = menu.addAction("Open")
+        delete_action = menu.addAction("Delete")
+
+        action = menu.exec(self.file_list.viewport().mapToGlobal(position))
+        if action == open_action:
+            self.open_file(file_path)
+        elif action == delete_action:
+            self.delete_document(index)
+
+    def open_file(self, file_path):
+        os.startfile(file_path)  # This is for Windows. Use 'open' for macOS and 'xdg-open' for Linux.
+
+    def delete_document(self, index: QModelIndex):
+        self.model.removeRow(index.row())
 
     def search_documents(self):
         query = self.search_bar.text()
